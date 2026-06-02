@@ -16,7 +16,7 @@ public class UkrnetEMailTest extends BaseTest {
     @Description("User should be able to login with valid credentials")
     public void loginTest() {
         log.info("=== Test started: loginTest ===");
-        Assert.assertEquals(inboxPage.getCurrentUrl(), inboxPage.getInboxPageUrl()
+        Assert.assertEquals(inboxPage.getCurrentUrl(), inboxPage.getInboxPageUrl() + "123"
                 , "Login was`t successful - urls were`t matching");
         log.info("=== loginTest passed successfully ===");
     }

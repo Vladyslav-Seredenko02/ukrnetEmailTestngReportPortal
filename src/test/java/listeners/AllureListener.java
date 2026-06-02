@@ -1,5 +1,12 @@
 package listeners;
 
+import com.epam.reportportal.listeners.LogLevel;
+import com.epam.reportportal.service.ReportPortal;
+
+import java.io.File;
+import java.nio.file.Files;
+import java.util.Date;
+
 import drivers.DriverFactory;
 import io.qameta.allure.Allure;
 import org.apache.logging.log4j.LogManager;
@@ -22,5 +29,21 @@ public class AllureListener implements ITestListener {
 
         Allure.addAttachment("Screenshot", "image/png", new ByteArrayInputStream(screenshot), ".png");
         log.info("Screenshot attached to Allure report");
+
+        try {
+            File screenshotFile = File.createTempFile("screenshot_" + result.getName(), ".png");
+            Files.write(screenshotFile.toPath(), screenshot);
+
+            ReportPortal.emitLog(
+                    "Screenshot on failure: " + result.getName(),
+                    LogLevel.ERROR.name(),
+                    new Date(),
+                    screenshotFile
+            );
+
+            log.info("Screenshot attached to ReportPortal");
+        } catch (Exception e) {
+            log.error("Failed to attach screenshot to ReportPortal", e);
+        }
     }
 }
