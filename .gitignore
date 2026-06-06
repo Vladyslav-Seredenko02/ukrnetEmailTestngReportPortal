@@ -41,3 +41,5 @@ logs/
 
 allure-results/
 .allure/
+
+src/test/resources/reportportal.properties
